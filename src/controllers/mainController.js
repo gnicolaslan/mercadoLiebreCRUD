@@ -9,10 +9,24 @@ const toThousand = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 const controller = {
 	index: (req, res) => {
 		// Do the magic
-		return res.render('index')
+		const visited = products.filter(product => product.category === "visited")
+		const inSale = products.filter(product => product.category === "in-sale")
+		return res.render('index', {
+			visited,
+			inSale,
+			toThousand
+		})
 	},
 	search: (req, res) => {
 		// Do the magic
+		const {keywords} = req.query;
+		const productsFilter = products.filter(product => product.name.toLowerCase().includes(keywords.toLowerCase()) || product.description.toLowerCase().includes(keywords.toLowerCase()))
+		
+		return res.render('results', {
+			productsFilter,
+			toThousand,
+			keywords,
+		})
 	},
 };
 

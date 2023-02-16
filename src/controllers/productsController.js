@@ -41,7 +41,7 @@ const controller = {
 	store: (req, res) => {
 		// Do the magic
 		const { name, price, discount, category, description } = req.body
-
+		
 		const newProduct = {
 			id: products[products.length - 1].id + 1,
 			name: name.trim(),
@@ -49,9 +49,9 @@ const controller = {
 			discount: +discount,
 			category,
 			description: description.trim(),
-			image: null,
+			image: req.file ? req.file.filename : null,
 		};
-
+		
 		products.push(newProduct);
 
 		fs.writeFileSync(productsFilePath, JSON.stringify(products, null, 3), 'utf-8')
